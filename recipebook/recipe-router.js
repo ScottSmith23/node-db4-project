@@ -60,6 +60,9 @@ router.get('/', (req, res) => {
       res.status(500).json({ message: 'Failed to get instructions' });
     });
   });
+
+
+  
 // router.post('/', (req, res) => {
 //   const carData = req.body;
 //   db('cars').insert(carData)
