@@ -12,22 +12,54 @@ router.get('/', (req, res) => {
     });
   });
 
-// router.get('/:id', (req, res) => {
-//   const { id } = req.params;
+  router.get('/:id', (req, res) => {
+    const { id } = req.params;
+  
+    Recipes.findById(id)
+    .then(scheme => {
+      if (scheme) {
+        res.json(scheme);
+      } else {
+        res.status(404).json({ message: 'Could not find recipe with given id.' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to get recipe' });
+    });
+  });
 
-//   db('cars').where({ id }).first()
-//   .then(car => {
-//       if(car){
-//     res.json(car);
-//       } else{
-//         res.json({ message: 'No car with that ID' });
-//       }
-//   }) 
-//   .catch (err => {
-//     res.status(500).json({ message: 'Failed to retrieve car data' });
-//   });
-// });
 
+  router.get('/:id/shoppingList', (req, res) => {
+    const { id } = req.params;
+  
+    Recipes.getShoppingList(id)
+    .then(list => {
+      if (list) {
+        res.json(list);
+      } else {
+        res.status(404).json({ message: 'Could not find list with given id.' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to get shopping list' });
+    });
+  });
+
+  router.get('/:id/instructions', (req, res) => {
+    const { id } = req.params;
+  
+    Recipes.getInstructions(id)
+    .then(inst => {
+      if (inst) {
+        res.json(inst);
+      } else {
+        res.status(404).json({ message: 'Could not find instructions for given id.' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to get instructions' });
+    });
+  });
 // router.post('/', (req, res) => {
 //   const carData = req.body;
 //   db('cars').insert(carData)
