@@ -3,27 +3,27 @@ exports.up = function (knex) {
       knex.schema
         // recipes
         .createTable("recipes", tbl => {
-          tbl.string("id", 255).primary();
+            tbl.increments("id").primary();
   
           tbl.string("RecipeName", 255).notNullable().unique();
         })
   
         // ingredients
         .createTable("ingredients", tbl => {
-          tbl.string("id", 255).primary();
+            tbl.increments("id").primary();
   
           tbl.string("IngredientName", 255).notNullable().index();
         })
   
         // steps
         .createTable("steps", tbl => {
-          tbl.string("id", 255).primary();
+         tbl.increments("id").primary();
   
           tbl.string("instruction", 255).notNullable().index();
           tbl.decimal("step_number").notNullable().index();
           // foreign key
           tbl
-            .string("recipe_id", 255)
+            .int("recipe_id")
             .notNullable()
             .references("id")
             .inTable("recipes")
@@ -33,12 +33,12 @@ exports.up = function (knex) {
   
         // Recipe_Ingredients
         .createTable("recipe_ingredients", tbl => {
-          tbl.string("id", 255).primary();
+          tbl.increments("id").primary();
   
           tbl.decimal("quantity").notNullable();
   
           tbl
-            .string("recipe_id", 255)
+            .int("recipe_id")
             .notNullable()
             .references("id")
             .inTable("recipes")
@@ -46,7 +46,7 @@ exports.up = function (knex) {
             .onUpdate("CASCADE");
   
           tbl
-            .string("ingredient_id", 255)
+            .int("ingredient_id")
             .notNullable()
             .references("id")
             .inTable("ingredients")
