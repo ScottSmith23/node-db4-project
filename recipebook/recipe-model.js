@@ -3,6 +3,7 @@ const db = require("../data/db-config.js");
 module.exports = {
     find,
     findById,
+    findIngredients,
     getShoppingList,
     getInstructions,
     getIngredientUse,
@@ -15,6 +16,10 @@ module.exports = {
 //implementation details
 function find() {
     return db("recipes");
+}
+
+function findIngredients() {
+    return db("ingredients");
 }
 
 function findById(id) {
@@ -38,10 +43,9 @@ function getInstructions(id) {
 }
 
 function getIngredientUse(id) {
-    return db("ingredients as i")
-    .join('recipe_ingredients as ri', "i.id","ri.ingredient_id")
-    .join('recipes as r', "r.id","ri.ingredient_id")
-    .select('ri.id',"s.recipe_id","s.step_number","s.instruction")
+    return db("recipes as r")
+    .join('recipe_ingredients as ri', "r.id","ri.recipe_id")
+    .select('ri.id',"r.recipename")
     .where("ri.ingredient_id",id);
 }
 
